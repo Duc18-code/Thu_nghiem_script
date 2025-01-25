@@ -1,30 +1,36 @@
 -- Tạo hàm cập nhật thông tin từ acc
 local function updateStats()
     local player = game.Players.LocalPlayer  -- Lấy người chơi hiện tại
-    local stats = player.Stats  -- Đảm bảo người chơi có phần Stats, thay thế bằng đúng đường dẫn trong game của bạn
+    local stats = player:FindFirstChild("Stats")  -- Đảm bảo người chơi có phần Stats, thay thế bằng đúng đường dẫn trong game của bạn
     
-    -- Cập nhật Level, Beli, Fragment, Race, Light, Melee từ Stats
-    local level = stats.Level.Value
-    local beli = stats.Beli.Value
-    local fragment = stats.Fragments.Value
-    local race = stats.Race.Value
-    local light = stats.Light.Value
-    local melee = stats.Melee.Value
+    if stats then
+        -- Cập nhật Level, Beli, Fragment, Race, Light, Melee từ Stats
+        local level = stats:FindFirstChild("Level") and stats.Level.Value or 0
+        local beli = stats:FindFirstChild("Beli") and stats.Beli.Value or 0
+        local fragment = stats:FindFirstChild("Fragments") and stats.Fragments.Value or 0
+        local race = stats:FindFirstChild("Race") and stats.Race.Value or "Unknown"
+        local light = stats:FindFirstChild("Light") and stats.Light.Value or 0
+        local melee = stats:FindFirstChild("Melee") and stats.Melee.Value or 0
     
-    -- Hiển thị các thông tin này lên UI
-    infoText.Text = string.format("Level: %d   Beli: $%s\nFragment [%d]   Race [%s]   Light [%d]\nMelee [%d]", 
-        level, tostring(beli), fragment, race, light, melee)
+        -- Hiển thị các thông tin này lên UI
+        infoText.Text = string.format("Level: %d   Beli: $%s\nFragment [%d]   Race [%s]   Light [%d]\nMelee [%d]", 
+            level, tostring(beli), fragment, race, light, melee)
+    else
+        infoText.Text = "Stats not found!"
+    end
 end
 
--- Tạo ScreenGui
+-- Tạo ScreenGui với toàn bộ màn hình
 local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = game.CoreGui
+screenGui.IgnoreGuiInset = true  -- Cho phép chiếm toàn bộ màn hình
 
--- Tạo Frame chứa UI
+-- Tạo Frame chứa UI với nền đen trong suốt
 local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 400, 0, 250)
-frame.Position = UDim2.new(0.5, -200, 0.5, -125)
-frame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+frame.Size = UDim2.new(1, 0, 1, 0)  -- Chiếm toàn bộ màn hình
+frame.Position = UDim2.new(0, 0, 0, 0)
+frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+frame.BackgroundTransparency = 0.5  -- Đen trong suốt
 frame.BorderSizePixel = 0
 frame.Parent = screenGui
 
