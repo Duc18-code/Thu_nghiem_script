@@ -1,0 +1,67 @@
+-- Tạo hàm cập nhật thông tin từ acc
+local function updateStats()
+    local player = game.Players.LocalPlayer  -- Lấy người chơi hiện tại
+    local stats = player.Stats  -- Đảm bảo người chơi có phần Stats, thay thế bằng đúng đường dẫn trong game của bạn
+    
+    -- Cập nhật Level, Beli, Fragment, Race, Light, Melee từ Stats
+    local level = stats.Level.Value
+    local beli = stats.Beli.Value
+    local fragment = stats.Fragments.Value
+    local race = stats.Race.Value
+    local light = stats.Light.Value
+    local melee = stats.Melee.Value
+    
+    -- Hiển thị các thông tin này lên UI
+    infoText.Text = string.format("Level: %d   Beli: $%s\nFragment [%d]   Race [%s]   Light [%d]\nMelee [%d]", 
+        level, tostring(beli), fragment, race, light, melee)
+end
+
+-- Tạo ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = game.CoreGui
+
+-- Tạo Frame chứa UI
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 400, 0, 250)
+frame.Position = UDim2.new(0.5, -200, 0.5, -125)
+frame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+frame.BorderSizePixel = 0
+frame.Parent = screenGui
+
+-- Thêm Logo
+local logo = Instance.new("ImageLabel")
+logo.Size = UDim2.new(0, 100, 0, 100)
+logo.Position = UDim2.new(0.5, -50, 0, 10)
+logo.Image = "rbxassetid://94424860994112"  -- Thay asset ID của hình logo
+logo.BackgroundTransparency = 1
+logo.Parent = frame
+
+-- Thêm Text cho Status
+local statusText = Instance.new("TextLabel")
+statusText.Size = UDim2.new(0, 350, 0, 30)
+statusText.Position = UDim2.new(0.5, -175, 0, 120)
+statusText.Text = "Status: Awakened Ice Admiral (Rengoku)"
+statusText.Font = Enum.Font.SourceSansBold
+statusText.TextColor3 = Color3.fromRGB(255, 255, 255)
+statusText.BackgroundTransparency = 1
+statusText.TextScaled = true
+statusText.Parent = frame
+
+-- Thêm Text chứa các thông số
+local infoText = Instance.new("TextLabel")
+infoText.Size = UDim2.new(0, 350, 0, 100)
+infoText.Position = UDim2.new(0.5, -175, 0, 150)
+infoText.Font = Enum.Font.SourceSans
+infoText.TextColor3 = Color3.fromRGB(255, 255, 255)
+infoText.BackgroundTransparency = 1
+infoText.TextScaled = true
+infoText.Parent = frame
+
+-- Gọi hàm cập nhật thông tin
+updateStats()
+
+-- Liên tục cập nhật khi có thay đổi
+while true do
+    wait(1)  -- Cập nhật mỗi giây (hoặc bạn có thể thay đổi thời gian chờ)
+    updateStats()
+end
