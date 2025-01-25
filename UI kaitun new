@@ -23,14 +23,15 @@ end
 -- Tạo ScreenGui với toàn bộ màn hình
 local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = game.CoreGui
-screenGui.IgnoreGuiInset = true  -- Cho phép chiếm toàn bộ màn hình
+screenGui.IgnoreGuiInset = true  -- Bỏ qua inset để chiếm toàn bộ màn hình
+screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling  -- Đảm bảo các đối tượng được xếp lớp đúng cách
 
 -- Tạo Frame chứa UI với nền đen trong suốt
 local frame = Instance.new("Frame")
 frame.Size = UDim2.new(1, 0, 1, 0)  -- Chiếm toàn bộ màn hình
 frame.Position = UDim2.new(0, 0, 0, 0)
 frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-frame.BackgroundTransparency = 0.5  -- Đen trong suốt
+frame.BackgroundTransparency = 0.5  -- Nền đen trong suốt
 frame.BorderSizePixel = 0
 frame.Parent = screenGui
 
